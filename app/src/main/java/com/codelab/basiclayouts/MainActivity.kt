@@ -21,6 +21,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
@@ -39,7 +40,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             MySootheTheme {
-                MySootheApp()
+                MySootheApp(modifier = Modifier)
             }
         }
     }
@@ -125,8 +126,8 @@ private fun SootheBottomNavigation(modifier: Modifier = Modifier) {
 
 // Step: MySoothe App - Scaffold
 @Composable
-fun MySootheApp() {
-    // Implement composable here
+fun MySootheApp(modifier: Modifier) {
+    SearchBar(modifier)
 }
 
 private val alignYourBodyData = listOf(
@@ -211,5 +212,7 @@ fun BottomNavigationPreview() {
 @Preview(widthDp = 360, heightDp = 640)
 @Composable
 fun MySoothePreview() {
-    MySootheApp()
+    MySootheTheme {
+        MySootheApp(modifier = Modifier)
+    }
 }
