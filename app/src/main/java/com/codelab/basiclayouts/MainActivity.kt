@@ -17,6 +17,8 @@
 package com.codelab.basiclayouts
 
 import android.content.res.Resources
+import android.graphics.Paint.Align
+import android.media.Image
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -29,8 +31,12 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -77,19 +83,28 @@ fun SearchBar(
 // Step: Align your body - Alignment
 @Composable
 fun AlignYourBodyElement(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    @DrawableRes drawable: Int,
+    @StringRes text: Int,
 ) {
-    Column(modifier) {
+    Column(
+        modifier = modifier,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
         Image(
-            painter = painterResource(id = R.drawable.ab1_inversions),
-            contentDescription = stringResource(id = R.string.ab1_inversions),
+            painter = painterResource(drawable),
+            contentDescription = null,
+            contentScale = ContentScale.Crop,
             modifier = Modifier
                 .clip(CircleShape)
                 .size(88.dp)
         )
         Text(
-            text = stringResource(R.string.ab1_inversions),
-            style = MaterialTheme.typography.h3
+            text = stringResource(text),
+            style = MaterialTheme.typography.h3,
+            modifier = Modifier.paddingFromBaseline(
+                top = 24.dp, bottom = 8.dp
+            )
         )
     }
 }
@@ -142,7 +157,11 @@ private fun SootheBottomNavigation(modifier: Modifier = Modifier) {
 @Composable
 fun MySootheApp(modifier: Modifier) {
     SearchBar(modifier)
-    AlignYourBodyElement(modifier)
+    AlignYourBodyElement(
+        modifier = modifier,
+        drawable = R.drawable.ab1_inversions,
+        text = R.string.ab1_inversions
+    )
 }
 
 private val alignYourBodyData = listOf(
@@ -179,7 +198,9 @@ fun SearchBarPreview() {
 fun AlignYourBodyElementPreview() {
     MySootheTheme {
         AlignYourBodyElement(
-            modifier = Modifier.padding(8.dp)
+            modifier = Modifier.padding(8.dp),
+            drawable = R.drawable.ab1_inversions,
+            text = R.string.ab1_inversions
         )
     }
 }
@@ -229,6 +250,10 @@ fun BottomNavigationPreview() {
 fun MySoothePreview() {
     MySootheTheme {
         MySootheApp(modifier = Modifier)
-        AlignYourBodyElement()
+        AlignYourBodyElement(
+            modifier = Modifier.padding(8.dp),
+            drawable = R.drawable.ab1_inversions,
+            text = R.string.ab1_inversions
+        )
     }
 }
