@@ -28,7 +28,9 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyHorizontalGrid
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
@@ -208,7 +210,25 @@ fun HomeSection(
 // Step: Home screen - Scrolling
 @Composable
 fun HomeScreen(modifier: Modifier = Modifier) {
-    // Implement composable here
+    Column(
+        modifier = modifier
+            .verticalScroll(rememberScrollState())
+            .padding(vertical = 16.dp)
+    ) {
+        Spacer(Modifier.height(16.dp))
+        SearchBar(modifier = Modifier.padding(horizontal = 16.dp))
+        HomeSection(title = R.string.align_your_body) {
+            AlignYourBodyRow(
+                bodyDataList = alignYourBodyData
+            )
+        }
+        HomeSection(title = R.string.favorite_collections) {
+            FavoriteCollectionsGrid(
+                collectionDataList = favoriteCollectionsData
+            )
+        }
+        Spacer(Modifier.height(16.dp))
+    }
 }
 
 // Step: Bottom navigation - Material
@@ -221,20 +241,7 @@ private fun SootheBottomNavigation(modifier: Modifier = Modifier) {
 @Composable
 fun MySootheApp(modifier: Modifier) {
     Column(modifier = modifier) {
-        SearchBar(modifier)
-
-        Spacer(modifier = Modifier.height(8.dp))
-
-        AlignYourBodyRow(
-            modifier = Modifier,
-            alignYourBodyData
-        )
-        Spacer(modifier = Modifier.height(8.dp))
-
-        FavoriteCollectionsGrid(
-            modifier = Modifier,
-            favoriteCollectionsData
-        )
+        HomeScreen()
     }
 
 
@@ -326,6 +333,14 @@ fun HomeSectionPreview() {
                 bodyDataList = alignYourBodyData
             )
         }
+  /*      HomeSection(
+            modifier = Modifier,
+            title = R.string.favorite_collections
+        ) {
+            FavoriteCollectionsGrid(
+               collectionDataList = favoriteCollectionsData
+            )
+        }*/
     }
 }
 
