@@ -16,9 +16,6 @@
 
 package com.codelab.basiclayouts
 
-import android.content.res.Resources
-import android.graphics.Paint.Align
-import android.media.Image
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -27,7 +24,10 @@ import androidx.annotation.StringRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyHorizontalGrid
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -36,15 +36,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.painter.Painter
-import androidx.compose.ui.graphics.vector.DefaultTintColor
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.constraintlayout.motion.widget.MotionScene
 import com.codelab.basiclayouts.ui.theme.MySootheTheme
 
 class MainActivity : ComponentActivity() {
@@ -168,10 +164,25 @@ private fun AlignYourBodyRow(
 
 // Step: Favorite collections grid - LazyGrid
 @Composable
-fun FavoriteCollectionsGrid(
-    modifier: Modifier = Modifier
+private fun FavoriteCollectionsGrid(
+    modifier: Modifier = Modifier,
+    collectionDataList: List<DrawableStringPair>
 ) {
-    // Implement composable here
+    LazyHorizontalGrid(
+        rows = GridCells.Fixed(2),
+        contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
+        horizontalArrangement = Arrangement.spacedBy(8.dp),
+        verticalArrangement = Arrangement.spacedBy(8.dp),
+        modifier = modifier.height(120.dp)
+    ) {
+        items(collectionDataList) { item ->
+            FavoriteCollectionCard(
+                modifier = modifier.height(56.dp),
+                drawable = item.drawable,
+                text = item.text
+            )
+        }
+    }
 }
 
 // Step: Home section - Slot APIs
@@ -199,10 +210,18 @@ private fun SootheBottomNavigation(modifier: Modifier = Modifier) {
 fun MySootheApp(modifier: Modifier) {
     Column(modifier = modifier) {
         SearchBar(modifier)
+
         Spacer(modifier = Modifier.height(8.dp))
+
         AlignYourBodyRow(
             modifier = Modifier,
             alignYourBodyData
+        )
+        Spacer(modifier = Modifier.height(8.dp))
+
+        FavoriteCollectionsGrid(
+            modifier = Modifier,
+            favoriteCollectionsData
         )
     }
 
@@ -265,7 +284,12 @@ fun FavoriteCollectionCardPreview() {
 @Preview(showBackground = true, backgroundColor = 0xFFF0EAE2)
 @Composable
 fun FavoriteCollectionsGridPreview() {
-    MySootheTheme { FavoriteCollectionsGrid() }
+    MySootheTheme {
+        FavoriteCollectionsGrid(
+            modifier = Modifier,
+            favoriteCollectionsData
+        )
+    }
 }
 
 @Preview(showBackground = true, backgroundColor = 0xFFF0EAE2)
