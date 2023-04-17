@@ -26,6 +26,8 @@ import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -144,10 +146,24 @@ fun FavoriteCollectionCard(
 
 // Step: Align your body row - Arrangements
 @Composable
-fun AlignYourBodyRow(
-    modifier: Modifier = Modifier
+private fun AlignYourBodyRow(
+    modifier: Modifier = Modifier,
+    bodyDataList: List<DrawableStringPair>
 ) {
-    // Implement composable here
+    LazyRow(
+        //padding around the edges of the content
+        contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
+        // spacing in-between items
+        horizontalArrangement = Arrangement.spacedBy(8.dp)
+    ) {
+        items(bodyDataList) { item ->
+            AlignYourBodyElement(
+                modifier = modifier,
+                drawable = item.drawable,
+                text = item.text
+            )
+        }
+    }
 }
 
 // Step: Favorite collections grid - LazyGrid
@@ -181,17 +197,16 @@ private fun SootheBottomNavigation(modifier: Modifier = Modifier) {
 // Step: MySoothe App - Scaffold
 @Composable
 fun MySootheApp(modifier: Modifier) {
-    SearchBar(modifier)
-    AlignYourBodyElement(
-        modifier = modifier,
-        drawable = R.drawable.ab1_inversions,
-        text = R.string.ab1_inversions
-    )
-    FavoriteCollectionCard(
-        modifier = modifier,
-        drawable = R.drawable.fc2_nature_meditations,
-        text = R.string.fc2_nature_meditations
-    )
+    Column(modifier = modifier) {
+        SearchBar(modifier)
+        Spacer(modifier = Modifier.height(8.dp))
+        AlignYourBodyRow(
+            modifier = Modifier,
+            alignYourBodyData
+        )
+    }
+
+
 }
 
 private val alignYourBodyData = listOf(
@@ -256,7 +271,11 @@ fun FavoriteCollectionsGridPreview() {
 @Preview(showBackground = true, backgroundColor = 0xFFF0EAE2)
 @Composable
 fun AlignYourBodyRowPreview() {
-    MySootheTheme { AlignYourBodyRow() }
+    MySootheTheme {
+        AlignYourBodyRow(
+            modifier = Modifier,
+            alignYourBodyData
+        ) }
 }
 
 @Preview(showBackground = true, backgroundColor = 0xFFF0EAE2)
@@ -282,15 +301,5 @@ fun BottomNavigationPreview() {
 fun MySoothePreview() {
     MySootheTheme {
         MySootheApp(modifier = Modifier)
-        AlignYourBodyElement(
-            modifier = Modifier.padding(8.dp),
-            drawable = R.drawable.ab1_inversions,
-            text = R.string.ab1_inversions
-        )
-        FavoriteCollectionCard(
-            modifier = Modifier,
-            drawable = R.drawable.fc2_nature_meditations,
-            text = R.string.fc2_nature_meditations
-        )
     }
 }
