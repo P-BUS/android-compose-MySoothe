@@ -273,7 +273,17 @@ private fun SootheBottomNavigation(
 @Composable
 fun MySootheApp(modifier: Modifier) {
     Column(modifier = modifier) {
-        HomeScreen()
+        Scaffold(
+            bottomBar = {
+                SootheBottomNavigation(
+                    textHomeItem = R.string.bottom_navigation_home,
+                    textProfileItem = R.string.bottom_navigation_profile
+                )
+            }
+        ) { padding ->
+            HomeScreen(Modifier.padding(padding))
+        }
+
     }
 
 
