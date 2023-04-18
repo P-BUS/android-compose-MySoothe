@@ -33,7 +33,9 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.filled.Spa
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -233,8 +235,38 @@ fun HomeScreen(modifier: Modifier = Modifier) {
 
 // Step: Bottom navigation - Material
 @Composable
-private fun SootheBottomNavigation(modifier: Modifier = Modifier) {
-    // Implement composable here
+private fun SootheBottomNavigation(
+    modifier: Modifier = Modifier,
+    textHomeItem: Int,
+    textProfileItem: Int
+) {
+    BottomNavigation(
+        modifier = modifier,
+        backgroundColor = MaterialTheme.colors.background
+    ) {
+        BottomNavigationItem(
+            icon = {
+                Icon(
+                    imageVector = Icons.Default.Spa,
+                    contentDescription = null
+                )
+            },
+            label = { Text(text = stringResource(textHomeItem)) },
+            selected = true,
+            onClick = { }
+        )
+        BottomNavigationItem(
+            icon = {
+                Icon(
+                    imageVector = Icons.Default.AccountCircle,
+                    contentDescription = null
+                )
+            },
+            label = { Text(text = stringResource(textProfileItem)) },
+            selected = false,
+            onClick = { }
+        )
+    }
 }
 
 // Step: MySoothe App - Scaffold
@@ -353,7 +385,12 @@ fun ScreenContentPreview() {
 @Preview(showBackground = true, backgroundColor = 0xFFF0EAE2)
 @Composable
 fun BottomNavigationPreview() {
-    MySootheTheme { SootheBottomNavigation(Modifier.padding(top = 24.dp)) }
+    MySootheTheme {
+        SootheBottomNavigation(
+            modifier = Modifier.padding(top = 24.dp),
+            textHomeItem = R.string.bottom_navigation_home,
+            textProfileItem = R.string.bottom_navigation_profile
+        ) }
 }
 
 @Preview(widthDp = 360, heightDp = 640)
